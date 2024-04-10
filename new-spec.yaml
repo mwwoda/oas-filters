@@ -1,0 +1,44 @@
+openapi: 3.0.0
+info:
+  title: Example API
+  version: 1.0.0
+paths:
+  /example:
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MetadataFilter"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MetadataFilter"
+
+components:
+  schemas:
+    MetadataFilter:
+      type: object
+      properties:
+        scope:
+          type: string
+          enum:
+            - global
+            - enterprise
+            - enterprise_{enterprise_id}
+        templateKey:
+          type: string
+        filters:
+          type: object
+          additionalProperties:
+            oneOf:
+              - $ref: "#/components/schemas/MetadataFieldFilterString"
+              - $ref: "#/components/schemas/MetadataFieldFilterFloat"
+    MetadataFieldFilterString:
+      type: string
+
+    MetadataFieldFilterFloat:
+      type: number
